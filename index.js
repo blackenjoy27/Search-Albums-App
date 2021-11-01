@@ -25,9 +25,6 @@ const AppController = ((model) => {
 
     const updateElements = (data) => {
         for (let i = 0; i < data.length; i++) {
-            if (i === 50) {
-                break;
-            }
             const content = document.createElement('div');
             content.textContent = data[i].collectionName;
             content.setAttribute("aria-lable", "name of the album")
