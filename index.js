@@ -24,7 +24,6 @@ const AppController = ((model) => {
     }
 
     const updateElements = (data) => {
-        document.querySelector(".content-list").innerHTML = "";
         for (let i = 0; i < data.length; i++) {
             if (i === 200) {
                 break;
@@ -46,11 +45,11 @@ const AppController = ((model) => {
             document.querySelector(".content-list").appendChild(item);
         }
     }
-    const searchArtist = (e) => {
+    const searchArtist = () => {
         const input = document.querySelector(".box-input_field").value;
+        document.querySelector(".content-list").innerHTML = "";
         if (!input || !input.trim()) {
             document.querySelector(".contents-info").textContent = "Search Albums by ArtistName:"
-            document.querySelector(".content-list").innerHTML = "";
         } else {
             model.getDataByName(input)
                 .then(albumns => {
