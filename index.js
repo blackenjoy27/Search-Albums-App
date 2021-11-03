@@ -23,8 +23,11 @@ const AppController = ((model) => {
         setUpEvent();
     }
 
-    const updateElements = (data) => {
+    const updateElements = (data, more) => {
         for (let i = 0; i < data.length; i++) {
+            if (i === 50 && !more) {
+                break;
+            }
             const content = document.createElement('div');
             content.textContent = data[i].collectionName;
             content.setAttribute("aria-lable", "name of the album")
@@ -34,6 +37,29 @@ const AppController = ((model) => {
             img.setAttribute("src", data[i].artworkUrl100);
             img.setAttribute("alt", `picture of the ${data[i].collectionName}`)
             img.classList.add("content-image")
+            img.addEventListener("click", () => {
+                document.querySelector(".modal").classList.add("modal-show");
+
+                const closeBtn = document.createElement("button");
+                closeBtn.classList.add("modal-btn-close")
+                closeBtn.textContent = "close";
+                closeBtn.addEventListener("click", closeModal)
+
+                const modalImg = document.createElement("img");
+                modalImg.setAttribute("src", data[i].artworkUrl100);
+                modalImg.classList.add("modal-img")
+
+                const span = document.createElement("span");
+                span.textContent = `Price: $${data[i].collectionPrice}`;
+                span.classList.add("modal-content-price");
+
+                const albumTitle = document.createElement("h2");
+                albumTitle.textContent = data[i].collectionName;
+                document.querySelector(".modal").appendChild(modalImg);
+                document.querySelector(".modal").appendChild(albumTitle);
+                document.querySelector(".modal").appendChild(closeBtn);
+                document.querySelector(".modal").appendChild(span);
+            })
 
             const item = document.createElement('li');
             item.classList.add("column", "content-list-item");
@@ -42,7 +68,14 @@ const AppController = ((model) => {
             document.querySelector(".content-list").appendChild(item);
         }
     }
-    const searchArtist = () => {
+
+    const closeModal = () => {
+        document.querySelector(".modal").innerHTML = "";
+        document.querySelector(".modal").classList.remove("modal-show");
+    }
+
+
+    const searchArtist = (more) => {
         const input = document.querySelector(".box-input_field").value;
         document.querySelector(".content-list").innerHTML = "";
         if (!input || !input.trim()) {
@@ -50,21 +83,28 @@ const AppController = ((model) => {
         } else {
             model.getDataByName(input)
                 .then(albumns => {
+                    console.log(albumns)
                     document.querySelector(".contents-info").textContent = `${albumns.resultCount} results for "${input}"`
-                    updateElements(albumns.results)
+                    updateElements(albumns.results, more)
                 })
         }
     }
 
     const setUpEvent = () => {
-        const searchBtn = document.querySelector(".box-btn");
-        searchBtn.addEventListener("click", searchArtist);
-        const inputElement = document.querySelector(".box-input_field");
-        inputElement.addEventListener("keydown", e => {
-            if (e.code === "Enter") {
-                searchArtist()
-            }
+        const addMoreBtn = document.querySelector(".btn-more");
+        addMoreBtn.addEventListener("click", () => {
+            searchArtist(true)
         })
+        const searchBtn = document.querySelector(".box-btn");
+        searchBtn.addEventListener("click", () => {
+            searchArtist(false)
+        });
+        const inputElement = document.querySelector(".box-input_field");
+
+        inputElement.addEventListener("keydown", e => {
+            searchArtist(false)
+        })
+
     }
     return { init }
 

@@ -51,9 +51,9 @@
 /* ===================================================== */
 
 .main {
-  margin: 1rem auto;
+  margin: 1rem auto 4rem;
   width: 80%;
-  height: 85vh;
+  height: 90vh;
   align-items: center;
   justify-content: space-between;
   border-radius: 10px;
@@ -106,3 +106,43 @@
 }
 
 /* ===================================================== */
+
+.show-all {
+  width: 5rem;
+  height: 2rem;
+  margin: 2rem auto;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  left: 37.5vw;
+  top: 25vh;
+  width: 25vw;
+  height: 25vw;
+  background-color: #a2d2ff;
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.modal.modal-show {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-img {
+  width: 50%;
+  height: 50%;
+  margin-bottom: 2rem;
+}
+.modal-content-price {
+  margin-top: 2rem;
+}
+
+.modal-btn-close {
+  width: 10%;
+  position: absolute;
+  top: 5%;
+  right: 5%;
+}
